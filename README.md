@@ -1,6 +1,3 @@
-Got it! You want the README fully customized with **your details (Sruthi Kommati)** and remove all other names/references. I can rewrite it accordingly. Here's a clean, personalized version:
-
----
 
 # WorkXplore 🚀
 
@@ -179,8 +176,3 @@ npm run dev
 * GitHub: [@sruthikommati](https://github.com/Sruthi141)
 * Email: [sruthikommati1919@gmail.com](mailto:sruthikommati1919@gmail.com)
 
----
-
-If you want, I can also **make it look more “resume-friendly”** with impact metrics like **“20% faster job matching” or “30% higher user engagement”**, which would make it shine on GitHub or LinkedIn.
-
-Do you want me to do that next?
