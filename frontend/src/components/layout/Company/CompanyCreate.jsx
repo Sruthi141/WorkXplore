@@ -2,7 +2,7 @@
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
-import Navbar from "../../common/navbar";
+// import Navbar from "../../common/navbar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { COMPANY_API_END_POINT } from "../../../utils/constant";
@@ -39,7 +39,7 @@ function CompanyCreate() {
 
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="max-w-4xl mx-auto">
         <div className="my-10">
           <h1 className="font-bold text-2xl">Your Company Name</h1>

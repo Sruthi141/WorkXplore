@@ -1,4 +1,5 @@
 import Job from "../models/jobModel.js";
+import Company from "../models/companyModel.js";
 
 // admin post krega job
 export const postJob = async (req, res) => {
@@ -33,34 +34,135 @@ export const postJob = async (req, res) => {
             success: true
         });
     } catch (error) {
-        console.log(error);
+        console.error("POST JOB ERROR:", error && error.stack ? error.stack : error);
+        return res.status(500).json({
+            message: error?.message || 'Server error while creating job',
+            success: false
+        });
     }
 }
 // student k liye
 export const getAllJobs = async (req, res) => {
     try {
-        const keyword = req.query.keyword || "";
-        const query = {
-            $or: [
-                { title: { $regex: keyword, $options: "i" } },
-                { description: { $regex: keyword, $options: "i" } },
-            ]
-        };
-        const jobs = await Job.find(query).populate({
-            path: "company"
-        }).sort({ createdAt: -1 });
+        const {
+            keyword = '',
+            companies,
+            industries,
+            minSalary,
+            maxSalary,
+            jobType,
+            sort,
+            location,
+            experience,
+            postedDate,
+        } = req.query;
+
+        const pipeline = [];
+
+        // Keyword search on title or description
+        if (keyword) {
+            pipeline.push({
+                $match: {
+                    $or: [
+                        { title: { $regex: keyword, $options: 'i' } },
+                        { description: { $regex: keyword, $options: 'i' } },
+                    ]
+                }
+            });
+        }
+
+        // Lookup company details
+        pipeline.push({
+            $lookup: {
+                from: 'companies',
+                localField: 'company',
+                foreignField: '_id',
+                as: 'company'
+            }
+        });
+        pipeline.push({ $unwind: { path: '$company', preserveNullAndEmptyArrays: true } });
+
+        // Filter by company names (comma separated)
+        if (companies) {
+            const companyArr = companies.split(',').map(c => c.trim()).filter(Boolean);
+            if (companyArr.length) {
+                pipeline.push({ $match: { 'company.name': { $in: companyArr } } });
+            }
+        }
+
+        // Industry filter (simple text match against title/description)
+        if (industries) {
+            const inds = industries.split(',').map(i => i.trim()).filter(Boolean);
+            if (inds.length) {
+                pipeline.push({
+                    $match: {
+                        $or: inds.map(i => ({
+                            title: { $regex: i, $options: 'i' }
+                        }))
+                    }
+                });
+            }
+        }
+
+        // Location filter
+        if (location) {
+            pipeline.push({
+                $match: {
+                    location: { $regex: location, $options: 'i' }
+                }
+            });
+        }
+
+        // Experience filter (minimum years)
+        if (experience) {
+            pipeline.push({
+                $match: {
+                    experienceLevel: { $gte: Number(experience) }
+                }
+            });
+        }
+
+        // Posted date filter
+        if (postedDate) {
+            const now = new Date();
+            let from;
+            if (postedDate === '24h') {
+                from = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+            } else if (postedDate === '7d') {
+                from = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            } else if (postedDate === '30d') {
+                from = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            }
+            if (from) {
+                pipeline.push({ $match: { createdAt: { $gte: from } } });
+            }
+        }
+
+        // Salary filter
+        const salaryMatch = {};
+        if (minSalary) salaryMatch.$gte = Number(minSalary);
+        if (maxSalary) salaryMatch.$lte = Number(maxSalary);
+        if (Object.keys(salaryMatch).length) pipeline.push({ $match: { salary: salaryMatch } });
+
+        // Job type
+        if (jobType) pipeline.push({ $match: { jobType } });
+
+        // Sorting
+        if (sort === 'salary_asc') pipeline.push({ $sort: { salary: 1 } });
+        else if (sort === 'salary_desc') pipeline.push({ $sort: { salary: -1 } });
+        else pipeline.push({ $sort: { createdAt: -1 } });
+
+        const jobs = await Job.aggregate(pipeline);
         if (!jobs) {
             return res.status(404).json({
-                message: "Jobs not found.",
+                message: 'Jobs not found.',
                 success: false
-            })
-        };
-        return res.status(200).json({
-            jobs,
-            success: true
-        })
+            });
+        }
+        return res.status(200).json({ jobs, success: true });
     } catch (error) {
-        console.log(error);
+        console.error('GET ALL JOBS ERROR:', error);
+        return res.status(500).json({ message: error?.message || 'Server error', success: false });
     }
 }
 // student

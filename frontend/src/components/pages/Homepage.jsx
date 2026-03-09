@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { React, useEffect } from "react";
-import Navbar from "../common/Navbar";
-import Herosection from "../layout/home/Herosection";
+// import Navbar from "../common/Navbar";
+import Herosection from "../layout/home/HeroPremium";
 import CategoryCatalouge from "../layout/home/CategoryCatalouge";
 import Latestjobs from "../layout/home/Latestjobs";
 import Footer from "../common/Footer";
-import useGetAllJobs from "../../hooks/usegetalljobs";
+import useGetAllJobs from "@/hooks/useGetAllJobs";
 import { setSearchedQuery } from "@/redux/jobslice";
 import { useDispatch } from "react-redux";
 
@@ -28,7 +28,7 @@ function Homepage() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Herosection></Herosection>
 
       {user && user.role === "recruiter" ? (

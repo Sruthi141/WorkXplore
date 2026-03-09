@@ -32,6 +32,14 @@ const userSchema = new mongoose.Schema({
         profilePhoto:{
             type:String,
             default:""
+        },
+        subscriptionPlan:{
+            type:String,
+            enum:["basic","pro","enterprise"],
+        },
+        isPremium:{
+            type:Boolean,
+            default:false
         }
     },
 },{timestamps:true});

@@ -1,4 +1,4 @@
-  import Navbar from "../common/Navbar";
+  // import Navbar from "../common/Navbar";
   import { Avatar, AvatarImage } from "../ui/Avatar";
   import { Button } from "../ui/button";
   import { Badge } from "../ui/badge";
@@ -17,7 +17,7 @@
 
     return (
       <div>
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8">
           <div className="flex justify-between">
             <div className="flex items-center gap-4">

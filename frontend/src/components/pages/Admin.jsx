@@ -95,6 +95,7 @@ const AdminDashboard = () => {
                                 <td className="py-3 px-4">{user.phoneNumber}</td>
                                 <td className="py-3 px-4">
                                     <button 
+                                        type="button"
                                         onClick={() => handleDelete(user._id, 'student')} 
                                         className="text-red-600 hover:underline">
                                         Delete
@@ -128,6 +129,7 @@ const AdminDashboard = () => {
                                 <td className="py-3 px-4">{user.phoneNumber}</td>
                                 <td className="py-3 px-4">
                                     <button 
+                                        type="button"
                                         onClick={() => handleDelete(user._id, 'recruiter')} 
                                         className="text-red-600 hover:underline">
                                         Delete
@@ -161,6 +163,7 @@ const AdminDashboard = () => {
                                 <td className="py-3 px-4">{user.phoneNumber}</td>
                                 <td className="py-3 px-4">
                                     <button 
+                                        type="button"
                                         onClick={() => handleDelete(user._id, 'admin')} 
                                         className="text-red-600 hover:underline">
                                         Delete

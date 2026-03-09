@@ -1,21 +1,31 @@
 import express from 'express';
-import { createAdmin, createUser, deleteUser, getAdminJobs, getAllUsers, getAppliedJobs } from '../controllers/adminController.js';
+import {
+  createAdmin,
+  createUser,
+  deleteUser,
+  getAdminJobs,
+  getAllUsers,
+  getAppliedJobs
+} from '../controllers/adminController.js';
 
 const router = express.Router();
 
-// Get all students and recruiters
-router.route("/get/:studentId").get( getAppliedJobs);
+// Get applied jobs of a student
+router.route("/get/:studentId").get(getAppliedJobs);
 
-router.route("/getjobs/:recruiterId").get( getAdminJobs);
+// Get jobs posted by recruiter/admin
+router.route("/getjobs/:recruiterId").get(getAdminJobs);
 
+// Get all users
+router.route("/users").get(getAllUsers);
 
-router.route("/users").get( getAllUsers);
+// Create user
+router.route("/users").post(createUser);
 
-router.route("/users").post( createUser);
+// ✅ ONLY NECESSARY CHANGE: use DELETE instead of GET for delete
+router.route("/users/delete/:id").delete(deleteUser);
 
-router.route("/users/delete/:id").get( deleteUser);
-
-router.route("/create").post( createAdmin);
-// Delete a user
+// Create admin
+router.route("/create").post(createAdmin);
 
 export default router;

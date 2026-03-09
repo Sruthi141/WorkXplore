@@ -14,12 +14,14 @@ const Popup = ({ message, onClose, onKnowMore }) => {
         <p className="text-lg text-gray-300 mb-5">{message}</p>
         <div className="flex justify-center gap-3">
           <button
+            type="button"
             className="px-4 py-2 text-white bg-blue-500 rounded-md transition-all duration-300 ease-in-out hover:bg-blue-600 transform hover:scale-105"
             onClick={onClose}
           >
             Close
           </button>
           <button
+            type="button"
             className="px-4 py-2 text-white bg-blue-500 rounded-md transition-all duration-300 ease-in-out hover:bg-blue-600 transform hover:scale-105"
             onClick={onKnowMore}
           >

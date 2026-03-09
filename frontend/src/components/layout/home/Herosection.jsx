@@ -1,6 +1,7 @@
 import heroimage from "../../../assets/hero.jpg";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
+import { Button } from '@/components/ui/button'
 
 function HeroSection() {
   const navigate = useNavigate();
@@ -26,12 +27,12 @@ function HeroSection() {
             you. Join us and start exploring your dream job today.
           </p>
           <div className="flex justify-center lg:justify-start space-x-4">
-            <button onClick={() => navigate("/signup")} className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition">
+            <Button onClick={() => navigate("/signup")} className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition">
               Get Started
-            </button>
-            <button onClick={scrollToLearnMore} className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-gray-900 transition">
+            </Button>
+            <Button onClick={scrollToLearnMore} className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-gray-900 transition">
               Learn More
-            </button>
+            </Button>
           </div>
         </div>
         {/* Image */}

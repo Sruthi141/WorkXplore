@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Navbar from '../common/Navbar';
+// import Navbar from '../common/Navbar';
 import Job from '../layout/jobs/Jobcard';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchedQuery } from '@/redux/jobSlice';
@@ -30,7 +30,7 @@ const Browse = () => {
 
     return (
         <div>
-            <Navbar />
+            {/* <Navbar /> */}
             <div className='max-w-7xl mx-auto my-10'>
                 {/* Search Bar */}
                 <div className='flex w-[40%] shadow-lg border border-gray-200 pl-3 rounded-full items-center gap-4 mx-auto my-6'>

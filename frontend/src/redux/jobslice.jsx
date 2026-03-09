@@ -10,6 +10,17 @@ const jobSlice = createSlice({
         searchJobByText:"",
         allAppliedJobs:[],
         searchedQuery:"",
+        filters: {
+            companies: [],
+            industries: [],
+            minSalary: null,
+            maxSalary: null,
+            jobType: '',
+            sort: '',
+            location: '',
+            experience: null,
+            postedDate: '',
+        },
      
     },
     reducers:{
@@ -32,6 +43,9 @@ const jobSlice = createSlice({
         setSearchedQuery:(state,action) => {
             state.searchedQuery = action.payload;
         },
+        setFilters:(state,action) => {
+            state.filters = { ...state.filters, ...action.payload };
+        },
         setSearchedCompany:(state,action) => {
             state.searchcompany = action.payload;
         },
@@ -45,6 +59,7 @@ export const {
     setSearchJobByText, 
     setAllAppliedJobs,
     setSearchedQuery,
+    setFilters,
   
 } = jobSlice.actions;
 

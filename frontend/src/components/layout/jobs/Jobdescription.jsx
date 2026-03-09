@@ -29,8 +29,12 @@ const JobDescription = () => {
         }
 
         try {
-            // Apply for the current job
-            const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true });
+            // Apply for the current job (backend expects POST)
+            const res = await axios.post(
+                `${APPLICATION_API_END_POINT}/apply/${jobId}`,
+                {},
+                { withCredentials: true }
+            );
 
             if (res.data.success) {
                 // Update the local state and Redux state

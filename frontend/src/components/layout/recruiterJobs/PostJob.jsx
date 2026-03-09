@@ -1,5 +1,5 @@
 import{ useState } from 'react'
-import Navbar from '../../common/Navbar'
+// import Navbar from '../../common/Navbar'
 import { Label } from '../../ui/label'
 import { Input } from '../../ui/input'
 import { Button } from '../../ui/button'
@@ -32,12 +32,31 @@ const PostJob = () => {
     };
 
     const selectChangeHandler = (value) => {
-        const selectedCompany = companies.find((company)=> company.name.toLowerCase() === value);
-        setInput({...input, companyId:selectedCompany._id});
+        // value will be companyId (string)
+        setInput({...input, companyId: value});
     };
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        // Frontend validation to avoid sending incomplete payload
+        const required = [
+            'title',
+            'description',
+            'requirements',
+            'salary',
+            'location',
+            'jobType',
+            'experience',
+            'position',
+            'companyId'
+        ];
+        for (const key of required) {
+            if (!input[key] && input[key] !== 0) {
+                toast.error('Please fill all required fields. Missing: ' + key);
+                return;
+            }
+        }
+
         try {
             setLoading(true);
             const res = await axios.post(`${JOB_API_END_POINT}/post`, input,{
@@ -51,7 +70,8 @@ const PostJob = () => {
                 navigate("/recruiter/jobs");
             }
         } catch (error) {
-            toast.error(error.response.data.message);
+            const msg = error?.response?.data?.message || error?.message || 'Server error';
+            toast.error(msg);
         } finally{
             setLoading(false);
         }
@@ -59,9 +79,9 @@ const PostJob = () => {
 
     return (
         <div>
-            <Navbar />
+            {/* <Navbar /> */}
             <div className='flex items-center justify-center w-screen my-5'>
-                <form onSubmit = {submitHandler} className='p-8 max-w-4xl border border-gray-200 shadow-lg rounded-md'>
+                <form onSubmit = {submitHandler} className='p-8 max-w-4xl glass-card shadow-xl'>
                     <div className='grid grid-cols-2 gap-2'>
                         <div>
                             <Label>Title</Label>
@@ -154,7 +174,7 @@ const PostJob = () => {
                                             {
                                                 companies.map((company) => {
                                                     return (
-                                                        <SelectItem  key={company._id} value={company?.name?.toLowerCase()}>{company.name}</SelectItem>
+                                                        <SelectItem  key={company._id} value={company._id}>{company.name}</SelectItem>
                                                     )
                                                 })
                                             }

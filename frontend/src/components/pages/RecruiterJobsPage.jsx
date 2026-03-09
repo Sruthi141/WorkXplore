@@ -1,5 +1,5 @@
 import  { useEffect, useState } from 'react'
-import Navbar from '../common/Navbar'
+// import Navbar from '../common/Navbar'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button' 
 import { useNavigate } from 'react-router-dom' 
@@ -19,7 +19,7 @@ const AdminJobs = () => {
   }, [input]);
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className='max-w-6xl mx-auto my-10'>
         <div className='flex items-center justify-between my-5'>
           <Input
@@ -27,7 +27,12 @@ const AdminJobs = () => {
             placeholder="Filter by name, role"
             onChange={(e) => setInput(e.target.value)}
           />
-          <Button onClick={() => navigate("/recruiter/jobs/create")}>New Jobs</Button>
+          <Button
+  className="bg-indigo-600 hover:bg-indigo-700 text-white"
+  onClick={() => navigate("/recruiter/jobs/create")}
+>
+  + Post Job
+</Button>
         </div>
       <RecruiterJobsTable/>
       </div>

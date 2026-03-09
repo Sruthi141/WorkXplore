@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react'
-import Navbar from '../../common/Navbar'
+// import Navbar from '../../common/Navbar'
 import { Button } from '../../ui/button'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import { Label } from '../../ui/label'
@@ -20,7 +20,6 @@ const CompanySetup = () => {
         description: "",
         website: "",
         location: "",
-        file: null
     });
     const {singleCompany} = useSelector(store=>store.company);
     const [loading, setLoading] = useState(false);
@@ -30,10 +29,7 @@ const CompanySetup = () => {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
 
-    const changeFileHandler = (e) => {
-        const file = e.target.files?.[0];
-        setInput({ ...input, file });
-    }
+    // Logo upload removed — logos are optional and not required
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -42,9 +38,7 @@ const CompanySetup = () => {
         formData.append("description", input.description);
         formData.append("website", input.website);
         formData.append("location", input.location);
-        if (input.file) {
-            formData.append("file", input.file);
-        }
+        // Do not append logo file — logos are optional and handled separately
         try {
             setLoading(true);
             const res = await axios.put(`${COMPANY_API_END_POINT}/update/${params.id}`, formData, {
@@ -71,13 +65,12 @@ const CompanySetup = () => {
             description: singleCompany.description || "",
             website: singleCompany.website || "",
             location: singleCompany.location || "",
-            file: singleCompany.file || null
         })
     },[singleCompany]);
 
     return (
         <div>
-            <Navbar />
+            {/* <Navbar /> */}
             <div className='max-w-xl mx-auto my-10'>
                 <form onSubmit={submitHandler}>
                     <div className='flex items-center gap-5 p-8'>
@@ -124,14 +117,7 @@ const CompanySetup = () => {
                                 onChange={changeEventHandler}
                             />
                         </div>
-                        <div>
-                            <Label>Logo</Label>
-                            <Input
-                                type="file"
-                                accept="image/*"
-                                onChange={changeFileHandler}
-                            />
-                        </div>
+                        {/* Logo upload removed — not required */}
                     </div>
                     {
                         loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Update</Button>

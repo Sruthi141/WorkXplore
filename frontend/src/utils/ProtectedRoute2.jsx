@@ -9,17 +9,19 @@ const ProtectedRoute2 = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user === null || user.email !== "tushar.r22@iiits.in") {
+    if (!user) {
+      navigate("/login");
+      toast.error("Please login first");
+      return;
+    }
+
+    if (user.role !== "admin") {
       navigate("/");
       toast.error("User not authorized");
     }
   }, [user, navigate]);
 
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
 
 export default ProtectedRoute2;

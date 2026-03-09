@@ -1,12 +1,22 @@
 import express from "express";
-import {isAuthenticated} from "../middlewares/authentication.js";
-import { getAdminJobs, getAllJobs, getJobById, postJob } from "../controllers/jobController.js";
+import { isAuthenticated } from "../middlewares/authentication.js";
+import { recruiterOnly } from "../middlewares/recruiterOnly.js";
+
+import {
+  postJob,
+  getAdminJobs,
+  getAllJobs,
+  getJobById,
+} from "../controllers/jobController.js";
 
 const router = express.Router();
 
-router.route("/post").post(isAuthenticated, postJob);
-router.route("/get").get(isAuthenticated, getAllJobs);
-router.route("/getadminjobs").get(isAuthenticated, getAdminJobs);
-router.route("/get/:id").get(isAuthenticated, getJobById);
+// ✅ Recruiter protected routes
+router.post("/post", isAuthenticated, recruiterOnly, postJob);
+router.get("/getadminjobs", isAuthenticated, recruiterOnly, getAdminJobs);
+
+// ✅ Public routes
+router.get("/get", getAllJobs);
+router.get("/get/:id", getJobById);
 
 export default router;

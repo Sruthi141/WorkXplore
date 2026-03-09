@@ -1,12 +1,11 @@
 import { useEffect } from 'react'
-import Navbar from '../common/Navbar'
+// import Navbar from '../common/Navbar'
 import ApplicantsTable from '../layout/applicants/ApplicantsTable'
 import axios from 'axios';
 import { APPLICATION_API_END_POINT } from '../../utils/constant';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAllApplicants } from '../../redux/applicationslice';
-
 
 
 const ApplicantPage = () => {
@@ -27,7 +26,7 @@ const ApplicantPage = () => {
     }, []);
     return (
         <div>
-            <Navbar />
+            {/* <Navbar /> */}
             <div className='max-w-7xl mx-auto'>
                 <h1 className='font-bold text-xl my-5'>Applicants {applicants ?.applications?.length}</h1>
                 <ApplicantsTable />
